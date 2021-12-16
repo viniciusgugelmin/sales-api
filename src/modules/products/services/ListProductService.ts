@@ -6,7 +6,7 @@ class ListProductService {
   public async execute(): Promise<Product[]> {
     const productsRepository = getCustomRepository(ProductsRepository);
 
-    return productsRepository.find();
+    return await productsRepository.find();
   }
 }
 

@@ -4,8 +4,13 @@ import Product from '@modules/products/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
 import ProductInterface from '@modules/products/interfaces/ProductInterface';
 
-class ShowProductService {
-  public async execute({ id }: ProductInterface): Promise<Product> {
+class UpdateProductService {
+  public async execute({
+    id,
+    name,
+    price,
+    quantity,
+  }: ProductInterface): Promise<Product> {
     const productsRepository = getCustomRepository(ProductsRepository);
     const product = await productsRepository.findOne(id);
 
@@ -13,8 +18,18 @@ class ShowProductService {
       throw new AppError('Product not found');
     }
 
+    const productExists = await productsRepository.findByName(name);
+
+    if (productExists && product.name !== name) {
+      throw new AppError(`Product with name ${name} already exists`);
+    }
+
+    Object.assign(product, { name, price, quantity });
+
+    await productsRepository.save(product);
+
     return product;
   }
 }
 
-export default ShowProductService;
+export default UpdateProductService;
