@@ -5,6 +5,7 @@
   "database": "sales-api",
   "username": "",
   "password": "",
+  "entities": ["./src/modules/**/typeorm/entities/*.ts"],
   "migrations": [
     "./src/shared/typeorm/migrations/*.ts"
   ],

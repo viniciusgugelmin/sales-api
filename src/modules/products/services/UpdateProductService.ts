@@ -2,7 +2,13 @@ import { getCustomRepository } from 'typeorm';
 import { ProductsRepository } from '@modules/products/typeorm/repositories/ProductsRepository';
 import Product from '@modules/products/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
-import ProductInterface from '@modules/products/interfaces/ProductInterface';
+
+interface IRequest {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
 
 class UpdateProductService {
   public async execute({
@@ -10,7 +16,7 @@ class UpdateProductService {
     name,
     price,
     quantity,
-  }: ProductInterface): Promise<Product> {
+  }: IRequest): Promise<Product> {
     const productsRepository = getCustomRepository(ProductsRepository);
     const product = await productsRepository.findOne(id);
 
@@ -21,7 +27,7 @@ class UpdateProductService {
     const productExists = await productsRepository.findByName(name);
 
     if (productExists && product.name !== name) {
-      throw new AppError(`Product with name ${name} already exists`);
+      throw new AppError(`Product with name '${name}' already exists`);
     }
 
     Object.assign(product, { name, price, quantity });
