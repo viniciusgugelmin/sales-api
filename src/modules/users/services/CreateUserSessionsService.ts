@@ -3,6 +3,7 @@ import User from '@modules/users/typeorm/entities/User';
 import { UsersRepositories } from '../typeorm/repositories/UsersRepositories';
 import { getCustomRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 
 interface IRequest {
   email: string;
@@ -11,6 +12,7 @@ interface IRequest {
 
 interface IResponse {
   user: User;
+  token: string;
 }
 
 class CreateUserSessionsService {
@@ -27,7 +29,12 @@ class CreateUserSessionsService {
       throw new AppError(`The password or email is invalid`, 401);
     }
 
-    return { user };
+    const token = sign({}, '43840371f6a7c760535f97eaf651f1a2', {
+      subject: user.id,
+      expiresIn: '1d',
+    });
+
+    return { user, token };
   }
 }
 

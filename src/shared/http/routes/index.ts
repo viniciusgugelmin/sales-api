@@ -5,7 +5,9 @@ import userSessionsRouter from '@modules/users/routes/user.sessions.routes';
 
 const routes = Router();
 
+/* PRODUCTS */
 routes.use('/products', productsRouter);
+/* USERS */
 routes.use('/users', usersRouter);
 routes.use('/users/sessions', userSessionsRouter);
 
