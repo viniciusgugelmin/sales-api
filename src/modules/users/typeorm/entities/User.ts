@@ -12,7 +12,7 @@ class User {
   id: string;
 
   @Column()
-  nmae: string;
+  name: string;
 
   @Column()
   email: string;
@@ -29,3 +29,5 @@ class User {
   @UpdateDateColumn()
   updated_at: Date;
 }
+
+export default User;
