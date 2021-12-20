@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import UsersControllers from '@modules/users/controllers/UsersControllers';
+import UsersController from '@modules/users/controllers/UsersController';
 import isAuthenticated from '@modules/users/middlewares/isAuthenticated';
 
 const usersRouter = Router();
-const usersController = new UsersControllers();
+const usersController = new UsersController();
 
 usersRouter.get('/', isAuthenticated, usersController.index);
 
