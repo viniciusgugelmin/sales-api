@@ -26,7 +26,7 @@ class UpdateUserService {
       throw new AppError(`User with email '${email}' already exists`);
     }
 
-    const hashedPassword = await hash(password, 8);
+    const hashedPassword = await usersRepository.generatePassword(password);
 
     Object.assign(user, { name, email, password: hashedPassword });
 
