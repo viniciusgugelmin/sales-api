@@ -18,11 +18,21 @@ class SendForgotPasswordEmailService {
     }
 
     const userTokensRepositories = getCustomRepository(UserTokensRepositories);
-    const token = await userTokensRepositories.generate(user.id);
+    const { token } = await userTokensRepositories.generate(user.id);
 
     await EtherealMail.sendMail({
-      to: email,
-      body: `Click here to change your password: ${token.token}`,
+      to: {
+        name: user.name,
+        email: user.email,
+      },
+      subject: '[SALES API] Password recover',
+      templateData: {
+        template: `Click here to change your password: {{token}}`,
+        variables: {
+          name: user.name,
+          token,
+        },
+      },
     });
   }
 }
