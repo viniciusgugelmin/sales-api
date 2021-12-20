@@ -3,13 +3,16 @@ import { UsersRepositories } from '@modules/users/typeorm/repositories/UsersRepo
 import { getCustomRepository } from 'typeorm';
 import { UserTokensRepositories } from '@modules/users/typeorm/repositories/UserTokensRepositories';
 import EtherealMail from '@config/mail/EtherealMail';
+import path from 'path';
+import { Request } from 'express';
 
 interface IRequest {
   email: string;
+  request: Request;
 }
 
 class SendForgotPasswordEmailService {
-  public async execute({ email }: IRequest): Promise<void> {
+  public async execute({ email, request }: IRequest): Promise<void> {
     const usersRepository = getCustomRepository(UsersRepositories);
     const user = await usersRepository.findByEmail(email);
 
@@ -19,6 +22,12 @@ class SendForgotPasswordEmailService {
 
     const userTokensRepositories = getCustomRepository(UserTokensRepositories);
     const { token } = await userTokensRepositories.generate(user.id);
+    const userForgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'user_forgot_password.hbs',
+    );
 
     await EtherealMail.sendMail({
       to: {
@@ -27,10 +36,10 @@ class SendForgotPasswordEmailService {
       },
       subject: '[SALES API] Password recover',
       templateData: {
-        template: `Click here to change your password: {{token}}`,
+        file: userForgotPasswordTemplate,
         variables: {
           name: user.name,
-          token,
+          link: `http://${request.headers.host}/reset-password?t=${token}`,
         },
       },
     });
