@@ -1,0 +1,43 @@
+1.
+To initialize the app with package.json...
+npm init -y
+yarn init -y
+
+2.
+To install TypeScript as a dev dependency. As the final code is compiled as Javascript, TypeScript is just needed in development.
+npm install -D typescript ts-node-dev @types/node tsconfig-paths
+yarn add -D typescript ts-node-dev @types/node tsconfig-paths
+
+3.
+Create the tsconfig.json file that will have the TypeScript config.
+npx tsc --init --rootDir src --outDir build --esModuleInterop --resolveJsonModule --lib es6 --module commonjs --allowJs true --noImplicitAny true
+-
+rootDir: TypeScript code search directory.
+-
+outDir: compiled code directory.
+-
+esModuleInterop: If is using commnjs as module system.
+-
+resolveJsonModule: To use JSON.
+-
+lib: To use types.
+-
+module: Commonjs is the default module system.
+-
+allowJs: To convert old Javascript to TypeScript.
+-
+noImplicitAny: To always use types.
+
+4.
+https://blog.rocketseat.com.br/conhecendo-o-npx-executor-de-pacote-do-npm/
+
+5.
+To keep the directory but not the files
+uploads/*
+!uploads/.gitkeep
+
+6.
+To reload the application in package.json
+"scripts": {
+  "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts"
+}

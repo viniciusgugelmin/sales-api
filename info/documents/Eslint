@@ -1,0 +1,34 @@
+1.
+To install eslint
+yarn add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+
+2.
+To configure eslint.rc
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ]
+}
+
+2.
+To configure eslintignore
+node_modules
+dist
+build
+/*.js
+
+3.
+To change the package.json scripts
+"scripts": {
+  "test": "echo \"Error: no test specified\" &amp;&amp; exit 1",
+  "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+  "lint": "eslint . --ext .ts",
+  "lint-fix": "eslint . --ext .ts --fix"
+}
