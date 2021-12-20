@@ -13,7 +13,7 @@ interface IRequest {
 class ResetPasswordService {
   public async execute({ token, password }: IRequest): Promise<void> {
     const usersRepository = getCustomRepository(UsersRepositories);
-    const userTokensRepositories = new UserTokensRepositories();
+    const userTokensRepositories = getCustomRepository(UserTokensRepositories);
 
     const userToken = await userTokensRepositories.findByToken(token);
 
@@ -35,6 +35,8 @@ class ResetPasswordService {
     }
 
     user.password = await usersRepository.generatePassword(password);
+
+    await usersRepository.save(user);
   }
 }
 

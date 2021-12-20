@@ -15,4 +15,16 @@ userTokenRouter.post(
   userTokenController.post,
 );
 
+userTokenRouter.put(
+  '/reset-password',
+  celebrate({
+    [Segments.BODY]: {
+      token: Joi.string().uuid().required(),
+      password: Joi.string().required(),
+      password_confirmation: Joi.string().required().valid(Joi.ref('password')),
+    },
+  }),
+  userTokenController.put,
+);
+
 export default userTokenRouter;
