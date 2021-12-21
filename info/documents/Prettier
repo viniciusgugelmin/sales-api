@@ -1,0 +1,55 @@
+1.
+To install prettier
+yarn add prettier -D
+
+2.
+To configure .prettierrc
+{
+  "semi": true,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "printWidth": 80,
+  "arrowParens": "avoid",
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "formattingToggle.affects": ["formatOnSave"]
+}
+-
+semi: definido como true, significa que o Prettier adicionará ponto-e-vírgulas quando necessário.
+-
+trailingComma: definido como all, significa que o Prettier colocará vírgulas no final dos objetos.
+-
+singleQuote: definido como true, significa que o Prettier usará automaticamente aspas simples em vez de aspas duplas.
+-
+printWidth: definido como 80, especifica que a impressora quebrará todas as linhas que excederem 80 caracteres.
+-
+É fundamental que extensão Prettier – Code Formatter esteja instalada no VSCode, pois permitirá a formatação automática do código ao salvar o arquivo.
+
+3.
+yarn add eslint-config-prettier@6.15.0 eslint-plugin-prettier@3.2.0 -D
+-
+eslint-config-prettier: disable all Eslint rules that can interfer Prettier
+-
+eslint-plugin-prettier: transform all Prettier rules in Eslint rules
+
+4.
+To change the .eslintrc
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "no-console": "warn",
+    "prettier/prettier": "error"
+  }
+}
